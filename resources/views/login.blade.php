@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('content')
+@section('page-css')
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -14,7 +14,16 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ asset('ico/apple-touch-icon-114-precomposed.png') }}">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ asset('ico/apple-touch-icon-72-precomposed.png') }}">
     <link rel="apple-touch-icon-precomposed" href="{{ asset('ico/apple-touch-icon-57-precomposed.png') }}">
+@stop
 
+@section('content')
+
+    @if(Session::has('flash_message'))
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ Session::get('flash_message') }}
+        </div>
+    @endif
 
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3 form-box">
@@ -29,15 +38,19 @@
             </div>
             <div class="form-bottom">
                 <form role="form" action="" method="post" class="login-form">
+                    {{ csrf_field() }}
+
                     <div class="form-group">
                         <label class="sr-only" for="form-username">Username</label>
-                        <input type="text" name="form-username" placeholder="Username..."
+                        <input type="text" name="username" placeholder="Username..."
                                class="form-username form-control" id="form-username">
+                        <span class="alert-danger">{{ $errors->first('username') }}</span>
                     </div>
                     <div class="form-group">
                         <label class="sr-only" for="form-password">Password</label>
-                        <input type="password" name="form-password" placeholder="Password..."
+                        <input type="password" name="password" placeholder="Password..."
                                class="form-password form-control" id="form-password">
+                        <span class="alert-danger">{{ $errors->first('password') }}</span>
                     </div>
                     <button type="submit" class="btn">Sign in!</button>
                 </form>
@@ -60,13 +73,16 @@
             </div>
         </div>
     </div>
+@stop
 
-
-
+@section('page-js')
 
     <!-- Javascript -->
 
-
+    <script src="{{ asset('js/jquery-1.11.1.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.backstretch.min.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
 @stop
 
 
